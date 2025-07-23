@@ -1,0 +1,114 @@
+spring:
+  application:
+    name: email-parser
+
+email-alert-error-routing:
+  invalidEmailAddressErrorCodes:
+    - "550"
+    - "551"
+    - "554"
+    - "501"
+    - "511"
+    - "525"
+    - "500"
+    - "552"
+    - "553"
+    - "556"
+    - "585"
+  rightShiftOffset: 45 # > 40
+  keywords:
+    provider:
+      - "@gmail"
+      - "@hotmail"
+      - "@yahoo"
+      - "@outlook" #...
+    failureCodes:
+      - "Remote Server returned"
+      - "Diagnostic-Code"
+    description:
+      - "Delivery has failed to these recipients or groups:"
+      - "Delivery is delayed to these recipients or groups:"
+      - "Diagnostic information for administrators:"
+    time:
+      - "Date"
+  enhancedCodes:
+    "[4.4.7]":
+      type: SOFT
+      description: "The email account that you tried to reach is over quota."
+    "[5.0.0]":
+      type: HARD
+      description: "..."
+    "[5.1.10]":
+      type: HARD
+      description: "..."
+    "[5.2.1]":
+      type: HARD
+      description: "..."
+    "[5.2.2]":
+      type: HARD
+      description: "..."
+    "[5.3.0]":
+      type: HARD
+      description: "..."
+    "[5.4.0]":
+      type: HARD
+      description: "..."
+    "[5.4.1]":
+      type: HARD
+    description: "..."
+    "[5.5.0]":
+      type: HARD
+      description: "..." #...
+  traditionalCodes:
+    421:
+      type: SOFT
+      description: "The service is unavailable, try again later"
+    450:
+      type: SOFT
+      description: "..."
+    451:
+      type: SOFT
+      description: "..."
+    452:
+      type: SOFT
+      description: "..."
+    500:
+      type: HARD
+      description: "..."
+    550:
+      type: HARD
+      description: "..."
+    551:
+      type: HARD
+      description: "..."
+    552:
+      type: HARD
+      description: "..."
+    553:
+      type: HARD
+      description: "..."
+    554:
+      type: HARD
+      description: "..."
+
+threadPollExecutor:
+  corePool: 3
+  maxPool: 10
+  queueCapacity: 100
+  keepAliveSeconds: 600
+  poolPrefix: "Email-Error-Pool"
+
+mail-listener:
+  protocol: imaps
+  server: #<mailbox server address> get from mailbox admin
+  port: #<mailbox port>
+  un: #<username>
+  pw: #<password>
+  folder: INBOX
+  debug: false
+  deleteMessages: true
+  connectionPoolSize: 3
+  autoReconnect: false
+  pollRateInMilSecs: 500
+  maxMsgPerPoll: -1
+  maxFetchSize: 100
